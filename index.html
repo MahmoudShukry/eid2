@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عيد أضحى مبارك</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --green-deep: #1a3a2a;
+    --green-mid: #2d5a3d;
+    --green-light: #4a8c5c;
+    --cream: #fdf6e3;
+    --text-dark: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--green-deep);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--cream);
+  }
+
+  /* ── Stars background ── */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at top, #0d2218 0%, #071510 100%);
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { from { opacity: .2; transform: scale(1); } to { opacity: 1; transform: scale(1.4); } }
+
+  /* ── Lantern decorations ── */
+  .lanterns {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around;
+    padding: 0 40px; pointer-events: none; z-index: 1;
+  }
+  .lantern {
+    width: 22px; height: 38px;
+    background: linear-gradient(160deg, #e6b23a, #c47a15);
+    border-radius: 4px 4px 8px 8px;
+    position: relative;
+    animation: swing 3s ease-in-out infinite alternate;
+    transform-origin: top center;
+    box-shadow: 0 0 18px #e6b23a88, 0 0 40px #c47a1540;
+  }
+  .lantern::before {
+    content: '';
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    width: 2px; height: 18px;
+    background: var(--gold);
+  }
+  .lantern::after {
+    content: '';
+    position: absolute; inset: 3px;
+    background: linear-gradient(160deg, #ffe08a88, #f0a02033);
+    border-radius: 2px 2px 6px 6px;
+  }
+  @keyframes swing { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 40px 20px;
+    position: relative; z-index: 2;
+  }
+  .screen.active { display: flex; }
+
+  /* ── Screen 1: Name Input ── */
+  #screen-name {
+    gap: 32px;
+    animation: fadeIn .8s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .moon-icon {
+    font-size: 72px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px #f0d08088);
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  .title-input-screen {
+    font-family: 'Amiri', serif;
+    font-size: clamp(24px, 5vw, 42px);
+    color: var(--gold-light);
+    text-align: center;
+    text-shadow: 0 0 30px #c9a84c66;
+    line-height: 1.5;
+  }
+
+  .name-form {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    width: 100%; max-width: 420px;
+  }
+  .name-input {
+    width: 100%;
+    padding: 16px 24px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 20px;
+    background: rgba(255,255,255,.07);
+    border: 2px solid var(--gold);
+    border-radius: 50px;
+    color: var(--cream);
+    text-align: center;
+    outline: none;
+    transition: all .3s;
+    backdrop-filter: blur(8px);
+  }
+  .name-input::placeholder { color: #c9a84c88; }
+  .name-input:focus {
+    border-color: var(--gold-light);
+    background: rgba(255,255,255,.12);
+    box-shadow: 0 0 24px #c9a84c44;
+  }
+  .btn-go {
+    padding: 14px 48px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 20px; font-weight: 800;
+    background: linear-gradient(135deg, var(--gold), #a0722a);
+    border: none; border-radius: 50px;
+    color: var(--green-deep);
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 4px 20px #c9a84c55;
+    letter-spacing: .5px;
+  }
+  .btn-go:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 8px 32px #c9a84c88;
+  }
+  .btn-go:active { transform: scale(.97); }
+
+  /* ── Screen 2: Sheep ── */
+  #screen-sheep {
+    gap: 24px;
+    animation: fadeIn .6s ease;
+  }
+  .sheep-container {
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  /* SVG sheep built in CSS art */
+  .sheep-wrap {
+    position: relative;
+    width: 220px; height: 180px;
+  }
+  .sheep-svg {
+    width: 100%; height: 100%;
+    animation: sheepBounce 0.5s ease-in-out infinite alternate;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.4));
+  }
+  @keyframes sheepBounce { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-10px) rotate(2deg); } }
+
+  .maa-bubble {
+    position: absolute; top: -30px; right: -20px;
+    background: var(--cream);
+    color: var(--green-deep);
+    font-family: 'Amiri', serif;
+    font-size: 22px; font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 3px solid var(--gold);
+    white-space: nowrap;
+    animation: bubblePop .5s cubic-bezier(.17,.67,.35,1.4) both;
+    transform-origin: bottom left;
+  }
+  .maa-bubble::after {
+    content: '';
+    position: absolute; bottom: -12px; right: 24px;
+    border: 8px solid transparent;
+    border-top-color: var(--gold);
+  }
+  @keyframes bubblePop { from { opacity:0; transform: scale(0) rotate(-10deg); } to { opacity:1; transform: scale(1) rotate(0deg); } }
+
+  .maa-text {
+    font-family: 'Amiri', serif;
+    font-size: clamp(36px, 8vw, 72px);
+    color: var(--gold-light);
+    text-shadow: 0 0 40px #f0d08099;
+    animation: maaGrow .4s ease both;
+    letter-spacing: 4px;
+  }
+  @keyframes maaGrow { from { opacity:0; transform: scale(.5); } to { opacity:1; transform: scale(1); } }
+
+  /* ── Screen 3: Eid Greeting ── */
+  #screen-greeting {
+    gap: 0;
+    animation: fadeIn .8s ease;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .greeting-card {
+    background: linear-gradient(145deg, rgba(42,74,52,.85), rgba(26,58,42,.95));
+    border: 2px solid var(--gold);
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 0 60px #c9a84c22, 0 20px 60px rgba(0,0,0,.5);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+  }
+  .greeting-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(201,168,76,.1) 0%, transparent 50%),
+      radial-gradient(circle at 90% 90%, rgba(201,168,76,.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .corner-ornament {
+    position: absolute;
+    font-size: 28px;
+    color: var(--gold);
+    opacity: .6;
+  }
+  .corner-ornament.tl { top: 12px; right: 12px; }
+  .corner-ornament.tr { top: 12px; left: 12px; transform: scaleX(-1); }
+  .corner-ornament.bl { bottom: 12px; right: 12px; transform: scaleY(-1); }
+  .corner-ornament.br { bottom: 12px; left: 12px; transform: scale(-1); }
+
+  .eid-moon {
+    font-size: 52px;
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 8px;
+    display: block;
+    filter: drop-shadow(0 0 15px #f0d08088);
+  }
+
+  .eid-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(30px, 6vw, 52px);
+    color: var(--gold-light);
+    line-height: 1.3;
+    text-shadow: 0 0 20px #c9a84c66;
+    margin-bottom: 8px;
+    animation: slideUp .6s .2s ease both;
+  }
+  .eid-subtitle {
+    font-family: 'Amiri', serif;
+    font-size: clamp(22px, 4vw, 34px);
+    color: #e8c86a;
+    margin-bottom: 24px;
+    animation: slideUp .6s .4s ease both;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+  .divider {
+    width: 80px; height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 0 auto 24px;
+    animation: slideUp .6s .5s ease both;
+  }
+
+  .greeting-name {
+    font-family: 'Amiri', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255,255,255,.3);
+    margin-bottom: 24px;
+    animation: nameGlow 2s ease-in-out infinite alternate;
+  }
+  @keyframes nameGlow { from { text-shadow: 0 0 10px #c9a84c44; } to { text-shadow: 0 0 30px #c9a84caa, 0 0 60px #c9a84c44; } }
+
+  .greeting-lines {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .g-line {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    color: var(--cream);
+    opacity: .9;
+    animation: slideUp .6s ease both;
+    line-height: 1.7;
+  }
+  .g-line.alt { color: #c9f0b0; font-size: clamp(14px, 2.5vw, 18px); font-style: italic; }
+  .g-line:nth-child(1) { animation-delay: .6s; }
+  .g-line:nth-child(2) { animation-delay: .8s; }
+
+  .eid-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #8b5e20);
+    color: var(--green-deep);
+    font-family: 'Amiri', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    padding: 10px 32px;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px #c9a84c66;
+    animation: slideUp .6s 1s ease both, pulse 2s 1.6s ease-in-out infinite;
+    letter-spacing: 1px;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 4px 20px #c9a84c66; } 50% { box-shadow: 0 4px 40px #c9a84ccc; } }
+
+  /* Confetti / floating flowers */
+  .particle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 20px;
+    animation: fall linear forwards;
+    z-index: 0;
+  }
+  @keyframes fall {
+    from { transform: translateY(-50px) rotate(0deg); opacity:1; }
+    to { transform: translateY(110vh) rotate(720deg); opacity:0; }
+  }
+
+  .btn-restart {
+    margin-top: 20px;
+    padding: 10px 28px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    border-radius: 50px;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all .3s;
+    opacity: .7;
+  }
+  .btn-restart:hover { opacity: 1; background: rgba(201,168,76,.1); }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- Lanterns -->
+<div class="lanterns" id="lanterns"></div>
+
+<!-- SCREEN 1: Name Input -->
+<div class="screen active" id="screen-name">
+  <div class="moon-icon">🌙</div>
+  <div class="title-input-screen">
+    أهلاً بك في عيد الأضحى المبارك<br>
+    <span style="font-size:.7em; color: #b0c8b0;">ما اسمك يا كريم؟</span>
+  </div>
+  <div class="name-form">
+    <input
+      class="name-input"
+      id="nameInput"
+      type="text"
+      placeholder="اكتب اسمك هنا..."
+      maxlength="30"
+      autocomplete="off"
+    >
+    <button class="btn-go" onclick="startExperience()">تفضّل 🐑</button>
+  </div>
+</div>
+
+<!-- SCREEN 2: Sheep -->
+<div class="screen" id="screen-sheep">
+  <div class="sheep-container">
+    <div class="sheep-wrap">
+      <!-- Hand-crafted SVG Sheep -->
+      <svg class="sheep-svg" viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body wool (fluffy circles) -->
+        <ellipse cx="110" cy="105" rx="68" ry="52" fill="#f0ede8"/>
+        <circle cx="75" cy="88" r="30" fill="#f5f2ed"/>
+        <circle cx="110" cy="80" r="34" fill="#f5f2ed"/>
+        <circle cx="145" cy="88" r="30" fill="#f5f2ed"/>
+        <circle cx="88" cy="110" r="28" fill="#edeae5"/>
+        <circle cx="130" cy="110" r="28" fill="#edeae5"/>
+        <circle cx="110" cy="118" r="26" fill="#e8e5e0"/>
+        <!-- Head -->
+        <ellipse cx="110" cy="58" rx="28" ry="24" fill="#d4c9b5"/>
+        <!-- Ears -->
+        <ellipse cx="84" cy="52" rx="10" ry="7" fill="#c4b8a0" transform="rotate(-20,84,52)"/>
+        <ellipse cx="136" cy="52" rx="10" ry="7" fill="#c4b8a0" transform="rotate(20,136,52)"/>
+        <!-- Eyes -->
+        <circle cx="101" cy="53" r="5" fill="#2a1a0a"/>
+        <circle cx="119" cy="53" r="5" fill="#2a1a0a"/>
+        <circle cx="102.5" cy="51.5" r="1.8" fill="#fff"/>
+        <circle cx="120.5" cy="51.5" r="1.8" fill="#fff"/>
+        <!-- Nose -->
+        <ellipse cx="110" cy="64" rx="8" ry="5" fill="#c4a090"/>
+        <path d="M106 66 Q110 70 114 66" stroke="#a07060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Legs -->
+        <rect x="83" y="150" width="14" height="28" rx="7" fill="#c4b8a0"/>
+        <rect x="101" y="152" width="14" height="26" rx="7" fill="#c4b8a0"/>
+        <rect x="118" y="152" width="14" height="26" rx="7" fill="#c4b8a0"/>
+        <rect x="136" y="150" width="14" height="28" rx="7" fill="#c4b8a0"/>
+        <!-- Hooves -->
+        <rect x="83" y="172" width="14" height="8" rx="4" fill="#5a4a3a"/>
+        <rect x="101" y="172" width="14" height="8" rx="4" fill="#5a4a3a"/>
+        <rect x="118" y="172" width="14" height="8" rx="4" fill="#5a4a3a"/>
+        <rect x="136" y="172" width="14" height="8" rx="4" fill="#5a4a3a"/>
+        <!-- Tail -->
+        <circle cx="178" cy="108" r="12" fill="#f5f2ed"/>
+      </svg>
+      <div class="maa-bubble" id="maaBubble" style="display:none">مـاااء 🎵</div>
+    </div>
+    <div class="maa-text" id="maaText" style="display:none">مـاااء!</div>
+  </div>
+</div>
+
+<!-- SCREEN 3: Greeting -->
+<div class="screen" id="screen-greeting">
+  <div class="greeting-card">
+    <span class="corner-ornament tl">✦</span>
+    <span class="corner-ornament tr">✦</span>
+    <span class="corner-ornament bl">✦</span>
+    <span class="corner-ornament br">✦</span>
+
+    <span class="eid-moon">🌙</span>
+
+    <div class="eid-title">عيد أضحى مبارك</div>
+    <div class="eid-subtitle">🕌 تقبّل الله منا ومنكم 🕌</div>
+
+    <div class="divider"></div>
+
+    <div class="greeting-name" id="greetingName"></div>
+
+    <div class="greeting-lines">
+      <div class="g-line">طاب عيدك برفقة من تحب 🤍</div>
+      <div class="g-line alt">ولا قطع الله لك في البيت عيدا 🌿</div>
+    </div>
+
+    <div class="eid-badge">🐑 عيد الأضحى المبارك 🐑</div>
+  </div>
+  <button class="btn-restart" onclick="restart()">← عُد للبداية</button>
+</div>
+
+<script>
+  let userName = '';
+
+  // ── Generate stars ──
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      --d:${(Math.random()*3+2).toFixed(1)}s;
+      animation-delay:${(Math.random()*4).toFixed(1)}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // ── Generate lanterns ──
+  const lanternsEl = document.getElementById('lanterns');
+  const lanternColors = ['#e6b23a','#d4522a','#4a8c5c','#c47a15','#9a3a6a'];
+  for (let i = 0; i < 9; i++) {
+    const l = document.createElement('div');
+    l.className = 'lantern';
+    l.style.background = `linear-gradient(160deg, ${lanternColors[i%5]}, ${lanternColors[(i+2)%5]})`;
+    l.style.animationDelay = `${i * 0.3}s`;
+    lanternsEl.appendChild(l);
+  }
+
+  // ── Enter key support ──
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') startExperience();
+  });
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startExperience() {
+    const input = document.getElementById('nameInput').value.trim();
+    if (!input) {
+      document.getElementById('nameInput').style.borderColor = '#e55';
+      setTimeout(() => document.getElementById('nameInput').style.borderColor = 'var(--gold)', 800);
+      return;
+    }
+    userName = input;
+    showScreen('screen-sheep');
+
+    // Show MAA after 1s
+    setTimeout(() => {
+      document.getElementById('maaBubble').style.display = 'block';
+    }, 800);
+    setTimeout(() => {
+      document.getElementById('maaText').style.display = 'block';
+    }, 1200);
+
+    // Go to greeting after 3.5s
+    setTimeout(() => {
+      showGreeting();
+    }, 3500);
+  }
+
+  function showGreeting() {
+    showScreen('screen-greeting');
+    document.getElementById('greetingName').textContent = userName + ' 🌸';
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const items = ['🌸','🌺','✨','⭐','🌙','🌿','🕌','🎊','💫','🌷'];
+    for (let i = 0; i < 40; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = items[Math.floor(Math.random() * items.length)];
+        p.style.cssText = `
+          left:${Math.random()*100}vw;
+          animation-duration:${(Math.random()*4+3).toFixed(1)}s;
+          animation-delay:${(Math.random()*2).toFixed(1)}s;
+          font-size:${Math.random()*18+12}px;
+        `;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 8000);
+      }, i * 80);
+    }
+  }
+
+  function restart() {
+    document.getElementById('nameInput').value = '';
+    document.getElementById('maaBubble').style.display = 'none';
+    document.getElementById('maaText').style.display = 'none';
+    showScreen('screen-name');
+  }
+</script>
+</body>
+</html>
